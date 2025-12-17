@@ -2,10 +2,10 @@
 
 const gameData = [
     {
-        name: "Snake.io",
-        description: "Grow your snake longer and faster than every other player in the arena!",
-        icon: "🐍",
+        name: "Bowmasters",
+        description: "Aim for other players and win!",
+        icon: "🏹",
         category: "Strategy",
-        link: "games/snake-io.html"
+        link: "games/bowmasters.html"
     } 
 ]; 

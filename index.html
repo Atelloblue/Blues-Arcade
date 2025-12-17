@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue's Arcade</title>
+    <style>
+        /* --- CORE STYLES --- */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #000000, #050a14, #001e38); 
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 140, 255, 0.5);
+        }
+
+        header p {
+            color: #aebce6;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* --- THE RESPONSIVE GRID --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
+
+        .game-grid {
+            /* This is the ID the script targets */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- GAME CARD DESIGN (Updated for Photo/Icon) --- */
+        .game-card {
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+            text-align: left; /* Ensure text inside is aligned */
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00d4ff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .card-image {
+            height: 160px;
+            width: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 16px 16px 0 0; /* Only round the top corners */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem; /* Larger icon/emoji */
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .game-card p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* --- BUTTONS --- */
+        .play-btn {
+            text-decoration: none;
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: block; /* Make sure the link fills the width */
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(90deg, #00d4ff 0%, #090979 100%);
+            box-shadow: 0 0 15px #00d4ff;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BLUE'S ARCADE</h1>
+        </p>Game site inspired by CoolMathGames.<p>
+    </header>
+
+    <div class="container">
+        <div class="game-grid" id="gameGrid">
+            </div>
+    </div>
+
+    <footer>
+        By Brynley Portillo
+    </footer>
+
+    <script src="games.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('gameGrid');
+            
+            // Loop through the array defined in games.js
+            gameData.forEach(game => {
+                const cardHTML = `
+                    <div class="game-card">
+                        <div class="card-image">${game.icon}</div>
+                        <div class="card-content">
+                            <h3>${game.name}</h3>
+                            <p>${game.description}</p>
+                            <a href="${game.link}" class="play-btn">PLAY NOW</a>
+                        </div>
+                    </div>
+                `;
+                // Add the card HTML to the grid container
+                grid.innerHTML += cardHTML;
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -55,7 +55,6 @@
             animation: floatUp linear infinite;
         }
 
-        /* Generating particles via CSS nth-child for randomness appearance */
         .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-duration: 15s; bottom: -10px; }
         .particle:nth-child(2) { width: 2px; height: 2px; left: 20%; animation-duration: 25s; bottom: -20px; animation-delay: 2s; }
         .particle:nth-child(3) { width: 6px; height: 6px; left: 35%; animation-duration: 20s; bottom: -30px; animation-delay: 5s; opacity: 0.1; }
@@ -69,6 +68,44 @@
             10% { opacity: 0.5; }
             90% { opacity: 0.5; }
             100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+        }
+
+        /* --- SETTINGS BUTTON --- */
+        .settings-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-panel);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .settings-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-muted);
+            transition: all 0.4s ease;
+        }
+
+        .settings-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: scale(1.1);
+        }
+
+        .settings-btn:hover svg {
+            fill: var(--primary);
+            transform: rotate(90deg);
         }
 
         /* --- HEADER --- */
@@ -127,7 +164,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            border-radius: 4px; /* Techy sharp corners */
+            border-radius: 4px; 
         }
 
         .tab-button::before {
@@ -271,10 +308,17 @@
         @media (max-width: 768px) {
             header h1 { font-size: 2.8rem; }
             .game-grid { grid-template-columns: 1fr; }
+            .settings-btn { top: 20px; right: 20px; width: 40px; height: 40px; }
         }
     </style>
 </head>
 <body>
+
+    <a href="setting.html" class="settings-btn" title="Settings">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+    </a>
 
     <div class="particle-container">
         <div class="particle"></div>
@@ -330,7 +374,7 @@
                     : safeGameData.filter(game => game.category === filterCategory);
 
                 if (filteredGames.length === 0) {
-                    grid.innerHTML = '<p style="text-align:center; color:#64748b; width:100%;">No games found.</p>';
+                    grid.innerHTML = '<p style="text-align:center; color:#64748b; width:100%;">No simulations found.</p>';
                     return;
                 }
 

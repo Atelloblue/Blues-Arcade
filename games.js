@@ -7,5 +7,12 @@ const gameData = [
         icon: "🏹",
         category: "Strategy",
         link: "games/bowmasters.html"
-    } 
-]; 
+    },
+    {
+        name: "Block Blast",
+        description: "Place blocks and clear rows in this addictive puzzle game.",
+        icon: "🧩",
+        category: "Puzzle",
+        link: "games/blockblast.html"
+    }
+];

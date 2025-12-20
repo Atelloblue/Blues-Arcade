@@ -14,5 +14,12 @@ const gameData = [
         icon: "🧩",
         category: "Puzzle",
         link: "games/blockblast.html"
+    },
+    {
+        name: "Amaze",
+        description: "Guide the ball through colorful maze puzzles.",
+        icon: "🌀",
+        category: "Puzzle",
+        link: "games/amaze.html"
     }
 ];

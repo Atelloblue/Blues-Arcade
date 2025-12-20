@@ -27,29 +27,7 @@
       display: block;
     }
   </style>
-</head>
 
-<body>
-  <div id="game">
-    <canvas id="unity-canvas"></canvas>
-  </div>
-
-  <script src="Build/BlockBlast1.1-8.loader.js"></script>
-  <script>
-    window.addEventListener("load", () => {
-      createUnityInstance(
-        document.getElementById("unity-canvas"),
-        {
-          dataUrl: "Build/BlockBlast1.1-8.data.unityweb",
-          frameworkUrl: "Build/BlockBlast1.1-8.framework.js.unityweb",
-          codeUrl: "Build/BlockBlast1.1-8.wasm.unityweb",
-          productName: "Block Blast Puzzle",
-          productVersion: "1.1"
-        }
-      );
-    });
-  <script>
-    
   <script>
     // 1. Handle Tab Cloaking
     const savedTitle = localStorage.getItem('tabTitle');
@@ -72,12 +50,32 @@
         
         if (panicKey && e.key === panicKey) {
             if (panicUrl) {
-                // Opens redirect in new window and tries to close current tab
                 window.open(panicUrl, "_self");
             }
         }
     });
-</script>
-  
+  </script>
+</head>
+
+<body>
+  <div id="game">
+    <canvas id="unity-canvas"></canvas>
+  </div>
+
+  <script src="Build/BlockBlast1.1-8.loader.js"></script>
+  <script>
+    window.addEventListener("load", () => {
+      createUnityInstance(
+        document.getElementById("unity-canvas"),
+        {
+          dataUrl: "Build/BlockBlast1.1-8.data.unityweb",
+          frameworkUrl: "Build/BlockBlast1.1-8.framework.js.unityweb",
+          codeUrl: "Build/BlockBlast1.1-8.wasm.unityweb",
+          productName: "Block Blast Puzzle",
+          productVersion: "1.1"
+        }
+      );
+    });
+  </script>
 </body>
 </html>

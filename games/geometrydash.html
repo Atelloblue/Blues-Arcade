@@ -6,14 +6,12 @@
     <title>Geometry Dash</title>
     <link rel="icon" type="image/png" href="https://e3334afd.cf-nate.pages.dev/0/g/geodash/game/splash.png">
     <meta name="description" content="Play Geometry Dash Lite Online For Free on Chromebook, PC, Windows, Desktop in Chrome and modern browsers.">
-    <link rel="canonical" href="https://gamecomets.com/game/geometry-dash-lite/" />
     <meta name="robots" content="noindex, nofollow">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="themes/geometrydashlite.io/rs/css/home.css?v=1">
 </head>
-<meta name="cf-2fa-verify" content="GpoihhhSRQknehLQkEtXM">
 
 <body>
     <style>
@@ -248,6 +246,34 @@
                 ToggleInfo();
             });
         </script>
-</body>
 
+            <!-- Tab Cloaking & Panic Key Script -->
+    <script>
+        // 1. Handle Tab Cloaking
+        const savedTitle = localStorage.getItem('tabTitle');
+        const savedIcon = localStorage.getItem('tabIcon');
+        if (savedTitle) document.title = savedTitle;
+        if (savedIcon) {
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            link.href = savedIcon;
+        }
+
+        // 2. Handle Panic Key
+        document.addEventListener('keydown', (e) => {
+            const panicKey = localStorage.getItem('panicKey');
+            const panicUrl = localStorage.getItem('panicUrl');
+            
+            if (panicKey && e.key === panicKey) {
+                if (panicUrl) {
+                    window.open(panicUrl, "_self");
+                }
+            }
+        });
+    </script>
+</body>
 </html>

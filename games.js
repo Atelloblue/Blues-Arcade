@@ -28,5 +28,12 @@ const gameData = [
         icon: "🎵",
         category: "Platformer",
         link: "games/geometrydash.html"
+    },
+    {
+        name: "Five Nights at Freddy's",
+        description: "Survive 5 nights in this horror-strategy game.",
+        icon: "🐻",
+        category: "Horror",
+        link: "games/fnaf1.html"
     }
 ];

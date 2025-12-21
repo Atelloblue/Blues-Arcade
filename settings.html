@@ -122,28 +122,25 @@
             margin-top: 10px;
         }
 
-.blank-btn {
-    width: 100%;
-    padding: 12px;
-    background: transparent;
-    /* Changed from purple to your primary blue */
-    color: var(--primary-glow);
-    border: 2px solid var(--primary);
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    transition: 0.3s;
-}
+        .blank-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--primary-glow);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.3s;
+        }
 
-.blank-btn:hover {
-    /* Solid blue background on hover with a glow effect */
-    background: var(--primary);
-    color: #000;
-    box-shadow: 0 0 15px var(--primary-glow);
-}
-
+        .blank-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
 
         .save-btn:hover { box-shadow: 0 0 20px var(--primary); transform: scale(1.02); }
 
@@ -199,26 +196,61 @@
     </div>
 
     <script>
-        /** * 1. ABOUT:BLANK LOGIC
+        /** * 1. UPGRADED ABOUT:BLANK LOGIC
          **/
         function openAboutBlank() {
+            // Get current cloak settings to apply to the blank tab
+            const savedTitle = localStorage.getItem('tabTitle') || "My Drive - Google Drive";
+            const savedIcon = localStorage.getItem('tabIcon') || "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png";
+            
             const url = window.location.href;
-            const win = window.open();
-            if (!win) {
-                alert("Please allow popups for this feature to work.");
+            
+            // Open the new window
+            const win = window.open('about:blank', '_blank');
+            
+            // Safety check for popup blockers
+            if (!win || win.closed || typeof win.closed == 'undefined') {
+                alert("Pop-up blocked! Please allow pop-ups for this site to cloak it.");
                 return;
             }
-            win.document.body.style.margin = '0';
-            win.document.body.style.height = '100vh';
-            
-            const iframe = win.document.createElement('iframe');
-            iframe.style.border = 'none';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.margin = '0';
-            iframe.src = url;
-            
-            win.document.body.appendChild(iframe);
+
+            // The HTML structure for the cloaked window
+            // We write this explicitly to ensure full coverage and no white flashes
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html style="width:100%; height:100%; margin:0; padding:0; overflow:hidden;">
+                <head>
+                    <title>${savedTitle}</title>
+                    <link rel="icon" href="${savedIcon}">
+                    <style>
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            width: 100%; 
+                            height: 100%; 
+                            overflow: hidden; 
+                            background-color: #000; /* Prevents white flash */
+                        }
+                        iframe { 
+                            width: 100%; 
+                            height: 100%; 
+                            border: none; 
+                            outline: none; 
+                        }
+                    </style>
+                </head>
+                <body>
+                    <iframe src="${url}" allowfullscreen></iframe>
+                </body>
+                </html>
+            `;
+
+            win.document.open();
+            win.document.write(htmlContent);
+            win.document.close();
+
+            // OPTIONAL: Uncomment the line below to close/redirect the original tab automatically
+            // window.location.replace("https://google.com");
         }
 
         /** * 2. CLOAKING & PANIC LOGIC
@@ -226,6 +258,7 @@
         function applyTabCloak() {
             const savedTitle = localStorage.getItem('tabTitle');
             const savedIcon = localStorage.getItem('tabIcon');
+            
             if (savedTitle) document.title = savedTitle;
             if (savedIcon) {
                 let link = document.querySelector("link[rel~='icon']");
@@ -242,11 +275,11 @@
 
         document.addEventListener('keydown', (e) => {
             const panicKey = localStorage.getItem('panicKey');
-            const panicUrl = localStorage.getItem('panicUrl');
-            if (panicKey && e.key === panicKey) {
-                if (panicUrl) {
-                    window.open(panicUrl, "_self");
-                }
+            const panicUrl = localStorage.getItem('panicUrl') || 'https://google.com';
+            
+            // Case insensitive comparison
+            if (panicKey && e.key.toLowerCase() === panicKey.toLowerCase()) {
+                window.location.href = panicUrl;
             }
         });
 

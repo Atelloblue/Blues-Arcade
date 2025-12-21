@@ -29,7 +29,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centering the main column */
+            align-items: center;
             overflow-x: hidden;
         }
 
@@ -59,8 +59,8 @@
             right: 0;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between; /* This keeps buttons at the ends */
-            pointer-events: none; /* Allows clicking through the container */
+            justify-content: space-between;
+            pointer-events: none;
             z-index: 1000;
         }
 
@@ -72,12 +72,12 @@
             border-radius: 14px;
             display: grid; place-items: center;
             cursor: pointer;
-            pointer-events: auto; /* Re-enables clicking for buttons */
+            pointer-events: auto;
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
         }
 
-        .nav-btn:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .nav-btn:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
         .nav-btn svg { width: 24px; height: 24px; fill: var(--text-muted); }
 
         /* --- CENTERED CONTENT WRAPPER --- */
@@ -100,6 +100,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 0;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
         }
 
         .controls {
@@ -122,8 +123,11 @@
             color: white;
             font-family: 'Outfit';
             outline: none;
-            text-align: center; /* Centered text inside search */
+            text-align: center;
+            transition: 0.3s;
         }
+
+        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
 
         .category-tabs {
             display: flex;
@@ -148,48 +152,53 @@
             background: var(--primary);
             color: white;
             border-color: transparent;
+            box-shadow: 0 0 15px var(--primary);
         }
 
         /* --- CENTERED GAME GRID --- */
         .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            width: 90%;
-            justify-content: center; /* Centers items if they don't fill a row */
-            margin-bottom: 100px;
-        }
-
-        /* Center grid on small data sets */
-        #gameGrid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            width: 95%;
+            margin-bottom: 100px;
+            gap: 25px;
         }
 
         .game-card {
-            width: 300px;
+            width: 320px;
             background: var(--bg-panel);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             overflow: hidden;
-            transition: 0.4s;
-            margin: 15px;
-            text-align: left; /* Keep card text left-aligned for readability */
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-align: left;
+            backdrop-filter: blur(5px);
         }
 
-        .game-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .game-card:hover { 
+            transform: translateY(-12px) scale(1.02); 
+            border-color: var(--primary-glow);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
 
         .card-image {
             height: 180px;
-            background: #0f172a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             display: grid; place-items: center;
-            font-size: 4rem;
+            font-size: 4.5rem;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .card-content { padding: 25px; }
-        .card-content h3 { font-family: 'Orbitron'; margin: 0 0 10px; }
-        .card-content p { color: var(--text-muted); font-size: 0.9rem; min-height: 40px; }
+        .card-content { 
+            padding: 25px; 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-content h3 { font-family: 'Orbitron'; margin: 0; font-size: 1.2rem; }
+        .card-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.4; margin: 0; min-height: 60px; }
 
         .play-btn {
             display: block;
@@ -201,17 +210,20 @@
             border-radius: 12px;
             font-family: 'Orbitron';
             font-weight: bold;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
             transition: 0.3s;
         }
 
-        .play-btn:hover { background: var(--primary); color: white; }
+        .play-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 20px var(--primary); }
 
         footer {
             width: 100%;
-            padding: 40px 0;
+            padding: 50px 0;
             border-top: 1px solid var(--glass-border);
             color: var(--text-muted);
             font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -220,8 +232,7 @@
     <div class="stars-container" id="stars"></div>
 
     <nav class="top-nav">
-        <div></div> 
-        <div style="display: flex; gap: 15px; pointer-events: auto;">
+        <div></div> <div style="display: flex; gap: 15px; pointer-events: auto;">
             <a href="school.html" class="nav-btn" title="School Mode">
                 <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
             </a>
@@ -265,19 +276,27 @@
             starContainer.appendChild(star);
         }
 
-        // Logic (assuming gameData exists in games.js)
-        const data = window.gameData || [];
+        // Logic for filtering and rendering
+        // We use gameData which is now loaded from your games.js file
         let currentCat = 'All Games';
         let query = '';
 
         function render() {
             const grid = document.getElementById('gameGrid');
             grid.innerHTML = '';
-            const filtered = data.filter(g => {
+            
+            // Safety check: ensure gameData exists
+            const activeData = typeof gameData !== 'undefined' ? gameData : [];
+
+            const filtered = activeData.filter(g => {
                 const matchCat = currentCat === 'All Games' || g.category === currentCat;
                 const matchSearch = g.name.toLowerCase().includes(query.toLowerCase());
                 return matchCat && matchSearch;
             });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="color: var(--text-muted); font-family: 'Orbitron'; margin-top: 50px;">No games found...</p>`;
+            }
 
             filtered.forEach(game => {
                 grid.innerHTML += `
@@ -286,34 +305,56 @@
                         <div class="card-content">
                             <h3>${game.name}</h3>
                             <p>${game.description}</p>
-                            <a href="${game.link}" class="play-btn">PLAY</a>
+                            <a href="${game.link}" class="play-btn">START GAME</a>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // Setup tabs
-        const cats = ['All Games', ...new Set(data.map(g => g.category))];
-        cats.forEach(cat => {
-            const btn = document.createElement('button');
-            btn.className = `tab-button ${cat === currentCat ? 'active' : ''}`;
-            btn.textContent = cat;
-            btn.onclick = () => {
-                currentCat = cat;
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                render();
-            };
-            document.getElementById('categoryTabs').appendChild(btn);
-        });
+        // Setup Category Tabs based on unique categories in your games.js
+        function setupTabs() {
+            const tabsContainer = document.getElementById('categoryTabs');
+            tabsContainer.innerHTML = ''; // Clear existing
+            
+            const activeData = typeof gameData !== 'undefined' ? gameData : [];
+            const cats = ['All Games', ...new Set(activeData.map(g => g.category))];
+            
+            cats.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `tab-button ${cat === currentCat ? 'active' : ''}`;
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    currentCat = cat;
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    render();
+                };
+                tabsContainer.appendChild(btn);
+            });
+        }
 
+        // Search event listener
         document.getElementById('gameSearch').oninput = (e) => {
             query = e.target.value;
             render();
         };
 
-        render();
+        // Initialize
+        window.onload = () => {
+            setupTabs();
+            render();
+        };
+
+        // Tab Cloaking & Panic Key
+        const savedTitle = localStorage.getItem('tabTitle');
+        if (savedTitle) document.title = savedTitle;
+
+        document.addEventListener('keydown', (e) => {
+            const panicKey = localStorage.getItem('panicKey');
+            const panicUrl = localStorage.getItem('panicUrl');
+            if (panicKey && e.key === panicKey && panicUrl) window.location.href = panicUrl;
+        });
     </script>
 </body>
 </html>

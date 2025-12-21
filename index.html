@@ -70,11 +70,10 @@
             100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
         }
 
-        /* --- SETTINGS BUTTON --- */
-        .settings-btn {
+        /* --- NAVIGATION BUTTONS (Top Right) --- */
+        .nav-btn {
             position: absolute;
             top: 30px;
-            right: 30px;
             width: 50px;
             height: 50px;
             background: var(--bg-panel);
@@ -88,23 +87,37 @@
             backdrop-filter: blur(5px);
             transition: all 0.4s ease;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-decoration: none;
         }
 
-        .settings-btn svg {
+        .nav-btn svg {
             width: 24px;
             height: 24px;
             fill: var(--text-muted);
             transition: all 0.4s ease;
         }
 
-        .settings-btn:hover {
+        /* Settings Button Placement */
+        .settings-btn {
+            right: 30px;
+        }
+
+        /* School Mode Button Placement (left of settings) */
+        .school-btn {
+            right: 90px;
+        }
+
+        .nav-btn:hover {
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
             transform: scale(1.1);
         }
 
-        .settings-btn:hover svg {
+        .nav-btn:hover svg {
             fill: var(--primary);
+        }
+        
+        .settings-btn:hover svg {
             transform: rotate(90deg);
         }
 
@@ -125,15 +138,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
-        }
-
-        header p {
-            color: var(--primary-glow);
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-top: 10px;
-            opacity: 0.8;
         }
 
         /* --- LAYOUT --- */
@@ -167,22 +171,6 @@
             border-radius: 4px; 
         }
 
-        .tab-button::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 2px; height: 100%;
-            background: var(--primary);
-            transform: scaleY(0);
-            transition: transform 0.3s;
-        }
-
-        .tab-button:hover {
-            background: rgba(59, 130, 246, 0.1);
-            color: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-        }
-
         .tab-button.active {
             background: var(--primary);
             color: #000;
@@ -214,9 +202,7 @@
         .game-card:hover {
             transform: translateY(-12px) scale(1.02);
             border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 
-                0 20px 40px -10px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(59, 130, 246, 0.2);
             z-index: 10;
         }
 
@@ -239,23 +225,6 @@
             flex-direction: column;
         }
 
-        .game-card h3 {
-            margin: 0 0 10px 0;
-            color: #fff;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-        }
-
-        .game-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-
-        /* --- BUTTONS --- */
         .play-btn {
             display: block;
             text-decoration: none;
@@ -272,25 +241,12 @@
             font-size: 0.8rem;
             transition: 0.3s;
             position: relative;
-            overflow: hidden;
             z-index: 1;
-        }
-
-        .play-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 0%; height: 100%;
-            background: var(--primary);
-            z-index: -1;
-            transition: width 0.3s ease;
-        }
-
-        .play-btn:hover::before {
-            width: 100%;
         }
 
         .play-btn:hover {
             color: #000;
+            background: var(--primary);
             box-shadow: 0 0 20px var(--primary);
         }
 
@@ -301,32 +257,34 @@
             text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
         }
 
         @media (max-width: 768px) {
             header h1 { font-size: 2.8rem; }
             .game-grid { grid-template-columns: 1fr; }
-            .settings-btn { top: 20px; right: 20px; width: 40px; height: 40px; }
+            .nav-btn { top: 20px; width: 40px; height: 40px; }
+            .settings-btn { right: 20px; }
+            .school-btn { right: 70px; }
         }
     </style>
 </head>
 <body>
 
-    <a href="settings.html" class="settings-btn" title="Settings">
+    <a href="school.html" class="nav-btn school-btn" title="School Mode">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+        </svg>
+    </a>
+
+    <a href="settings.html" class="nav-btn settings-btn" title="Settings">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
         </svg>
     </a>
 
     <div class="particle-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
         <div class="particle"></div>
     </div>
 
@@ -336,7 +294,6 @@
 
     <div class="container">
         <div id="categoryTabs" class="category-tabs"></div>
-
         <div class="game-grid" id="gameGrid"></div>
     </div>
 
@@ -384,9 +341,7 @@
 
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     btn.classList.remove('active');
-                    if (btn.textContent === filterCategory) {
-                        btn.classList.add('active');
-                    }
+                    if (btn.textContent === filterCategory) btn.classList.add('active');
                 });
             }
 
@@ -400,33 +355,22 @@
 
             displayGames('All Games');
         });
-    </script>
 
-    <script>
-        // 1. Handle Tab Cloaking
+        // Tab Cloaking & Panic Key
         const savedTitle = localStorage.getItem('tabTitle');
         const savedIcon = localStorage.getItem('tabIcon');
         if (savedTitle) document.title = savedTitle;
         if (savedIcon) {
-            let link = document.querySelector("link[rel~='icon']");
-            if (!link) {
-                link = document.createElement('link');
-                link.rel = 'icon';
-                document.head.appendChild(link);
-            }
+            let link = document.querySelector("link[rel~='icon']") || document.createElement('link');
+            link.rel = 'icon'; document.head.appendChild(link);
             link.href = savedIcon;
         }
 
-        // 2. Handle Panic Key
         document.addEventListener('keydown', (e) => {
             const panicKey = localStorage.getItem('panicKey');
             const panicUrl = localStorage.getItem('panicUrl');
-            
-            if (panicKey && e.key === panicKey) {
-                if (panicUrl) {
-                    // Opens redirect in the same tab
-                    window.open(panicUrl, "_self");
-                }
+            if (panicKey && e.key === panicKey && panicUrl) {
+                window.open(panicUrl, "_self");
             }
         });
     </script>

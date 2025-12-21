@@ -18,6 +18,7 @@
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --card-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #a855f7;
         }
 
         body {
@@ -99,7 +100,7 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
 
-        .save-btn, .back-btn {
+        .save-btn, .back-btn, .blank-btn {
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -119,6 +120,23 @@
             border: none;
             border-radius: 8px;
             margin-top: 10px;
+        }
+
+        .blank-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--accent-purple);
+            border: 2px solid var(--accent-purple);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+        }
+
+        .blank-btn:hover {
+            background: var(--accent-purple);
+            color: white;
+            box-shadow: 0 0 15px var(--accent-purple);
         }
 
         .save-btn:hover { box-shadow: 0 0 20px var(--primary); transform: scale(1.02); }
@@ -142,6 +160,14 @@
     </header>
 
     <div class="settings-container">
+        <div class="setting-group">
+            <h2>About:Blank Cloak</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                Opens this site in a new tab with no history or URL.
+            </p>
+            <button class="blank-btn" onclick="openAboutBlank()">Open in about:blank</button>
+        </div>
+
         <div class="setting-group">
             <h2>Tab Cloak</h2>
             <label for="tabTitle">New Tab Title</label>
@@ -167,8 +193,29 @@
     </div>
 
     <script>
-        /** * 1. IMMEDIATE ACTION: CLOAKING & PANIC LOGIC
-         * We run this immediately on load to ensure the tab is cloaked right away.
+        /** * 1. ABOUT:BLANK LOGIC
+         **/
+        function openAboutBlank() {
+            const url = window.location.href;
+            const win = window.open();
+            if (!win) {
+                alert("Please allow popups for this feature to work.");
+                return;
+            }
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = url;
+            
+            win.document.body.appendChild(iframe);
+        }
+
+        /** * 2. CLOAKING & PANIC LOGIC
          **/
         function applyTabCloak() {
             const savedTitle = localStorage.getItem('tabTitle');
@@ -185,10 +232,8 @@
             }
         }
 
-        // Run cloaking check immediately
         applyTabCloak();
 
-        // Panic Key Event Listener
         document.addEventListener('keydown', (e) => {
             const panicKey = localStorage.getItem('panicKey');
             const panicUrl = localStorage.getItem('panicUrl');
@@ -199,10 +244,8 @@
             }
         });
 
-        /** * 2. UI & SETTINGS MANAGEMENT
+        /** * 3. UI & SETTINGS MANAGEMENT
          **/
-        
-        // Create particles dynamically
         const pContainer = document.getElementById('p-container');
         for(let i=0; i<15; i++) {
             let p = document.createElement('div');
@@ -215,7 +258,6 @@
             pContainer.appendChild(p);
         }
 
-        // Load existing settings into input fields
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tabTitle').value = localStorage.getItem('tabTitle') || '';
             document.getElementById('tabIcon').value = localStorage.getItem('tabIcon') || '';
@@ -223,16 +265,13 @@
             document.getElementById('panicUrl').value = localStorage.getItem('panicUrl') || '';
         });
 
-        // Save Function
         function saveSettings() {
             localStorage.setItem('tabTitle', document.getElementById('tabTitle').value);
             localStorage.setItem('tabIcon', document.getElementById('tabIcon').value);
             localStorage.setItem('panicKey', document.getElementById('panicKey').value);
             localStorage.setItem('panicUrl', document.getElementById('panicUrl').value);
             
-            // Re-apply cloaking immediately so user sees the change
             applyTabCloak();
-            
             alert('Settings saved and applied!');
         }
     </script>

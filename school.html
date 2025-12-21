@@ -29,6 +29,7 @@
             min-height: 100vh;
         }
 
+        /* --- INTEGRITY BANNER --- */
         .integrity-banner {
             background: rgba(244, 63, 94, 0.1);
             border-bottom: 1px solid var(--accent);
@@ -38,6 +39,7 @@
             color: #fda4af;
         }
 
+        /* --- HEADER --- */
         header {
             padding: 20px 40px;
             display: flex;
@@ -64,6 +66,7 @@
             transition: 0.3s;
         }
 
+        /* --- LAYOUT --- */
         .main-layout {
             max-width: 1600px;
             margin: 0 auto;
@@ -84,10 +87,11 @@
             border-bottom: 1px solid var(--card-border);
         }
 
+        /* --- COMPACT RESOURCE CARDS --- */
         .resource-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
+            gap: 12px;
         }
 
         .resource-card {
@@ -103,8 +107,6 @@
             align-items: center;
             text-align: center;
             overflow: hidden;
-            min-height: 100px;
-            justify-content: center;
         }
 
         .resource-card:hover {
@@ -114,7 +116,7 @@
         }
 
         .icon-sm { font-size: 1.4rem; margin-bottom: 6px; }
-        .resource-card h3 { font-size: 0.8rem; margin: 0; color: #fff; }
+        .resource-card h3 { font-size: 0.85rem; margin: 0; color: #fff; }
 
         .integrity-tag {
             position: absolute;
@@ -135,7 +137,7 @@
             background: #fbbf24;
             color: #000;
             font-size: 0.6rem;
-            padding: 6px;
+            padding: 8px;
             box-sizing: border-box;
             transition: 0.3s ease;
             font-weight: 700;
@@ -146,6 +148,7 @@
             bottom: 0;
         }
 
+        /* --- SIDEBAR --- */
         .tool-box {
             background: var(--bg-panel);
             border: 1px solid var(--card-border);
@@ -159,6 +162,34 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 0.75rem;
             color: var(--primary);
+        }
+
+        /* Dictionary Search Styles */
+        .search-group {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .search-group input {
+            flex: 1;
+            background: #020617;
+            border: 1px solid var(--card-border);
+            padding: 8px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        .search-group button {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 0 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.7rem;
         }
 
         #taskInput {
@@ -199,17 +230,18 @@
 <body>
 
     <div class="integrity-banner">
-        ⚠️ <strong>Reminder:</strong> AI and automation tools should assist learning, not replace it. Check your school's AI policy.
+        ⚠️ <strong>Note:</strong> Tools with ⚠️ are for reference and verification only. Ensure use complies with your teacher's AI policy.
     </div>
 
     <header>
-        <div class="brand"><h1>STUDENT PORTAL</h1></div>
-        <a href="index.html" class="back-btn">← BACK</a>
+        <div class="brand"><h1>STUDENT WORKSPACE</h1></div>
+        <a href="index.html" class="back-btn">← RETURN TO ARCADE</a>
     </header>
 
     <div class="main-layout">
+        
         <main>
-            <div class="section-title">LMS & Administration</div>
+            <div class="section-title">Classrooms & Management</div>
             <div class="resource-grid">
                 <a href="https://canvas.instructure.com" target="_blank" class="resource-card">
                     <div class="icon-sm">🎨</div><h3>Canvas</h3>
@@ -217,15 +249,15 @@
                 <a href="https://classroom.google.com" target="_blank" class="resource-card">
                     <div class="icon-sm">📝</div><h3>Classroom</h3>
                 </a>
-                <a href="https://www.collegeboard.org" target="_blank" class="resource-card">
-                    <div class="icon-sm">🎯</div><h3>College Board</h3>
-                </a>
                 <a href="https://www.clever.com" target="_blank" class="resource-card">
                     <div class="icon-sm">🚀</div><h3>Clever</h3>
                 </a>
+                <a href="https://www.collegeboard.org" target="_blank" class="resource-card">
+                    <div class="icon-sm">🎯</div><h3>College Board</h3>
+                </a>
             </div>
 
-            <div class="section-title">Research & Literacy</div>
+            <div class="section-title">Research & Reference</div>
             <div class="resource-grid">
                 <a href="https://soraapp.com/welcome" target="_blank" class="resource-card">
                     <div class="icon-sm">📚</div><h3>Sora</h3>
@@ -233,51 +265,50 @@
                 <a href="https://www.worldbookonline.com/home/" target="_blank" class="resource-card">
                     <div class="icon-sm">🌍</div><h3>World Book</h3>
                 </a>
-                <a href="https://www.britannica.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">📖</div><h3>Britannica</h3>
-                </a>
                 <a href="https://scholar.google.com" target="_blank" class="resource-card">
                     <div class="icon-sm">🎓</div><h3>Google Scholar</h3>
                 </a>
+                <a href="https://www.britannica.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">📖</div><h3>Britannica</h3>
+                </a>
             </div>
 
-            <div class="section-title">STEM & Writing Support</div>
+            <div class="section-title">STEM & Academic Tools</div>
             <div class="resource-grid">
-                <a href="https://www.grammarly.com/" target="_blank" class="resource-card">
-                    <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">✨</div><h3>Grammarly</h3>
-                    <div class="card-warning">Integrity: Use for grammar checks only, not for AI-rewriting work.</div>
-                </a>
-                <a href="https://www.citationmachine.net/" target="_blank" class="resource-card">
-                    <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">✍️</div><h3>Citations</h3>
-                    <div class="card-warning">Integrity: Use for formatting. Do not use for auto-generating content.</div>
-                </a>
-                <a href="https://www.wolframalpha.com/" target="_blank" class="resource-card">
-                    <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">♾️</div><h3>Wolfram</h3>
-                    <div class="card-warning">Integrity: Use to check your logic. Copying steps may be cheating.</div>
-                </a>
-                <a href="https://phet.colorado.edu/en/simulations/browse" target="_blank" class="resource-card">
-                    <div class="icon-sm">🔬</div><h3>PhET Sims</h3>
+                <a href="https://www.ilovepdf.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">📄</div><h3>PDF Tools</h3>
                 </a>
                 <a href="https://www.desmos.com/calculator" target="_blank" class="resource-card">
                     <div class="icon-sm">📉</div><h3>Desmos</h3>
                 </a>
-                <a href="https://www.geogebra.org" target="_blank" class="resource-card">
-                    <div class="icon-sm">📐</div><h3>GeoGebra</h3>
+                <a href="https://www.grammarly.com/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">✨</div><h3>Grammarly</h3>
+                    <div class="card-warning">Use for spellcheck only. Do not let it rewrite your original ideas.</div>
+                </a>
+                <a href="https://www.citationmachine.net/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">✍️</div><h3>Citations</h3>
+                    <div class="card-warning">Always double-check auto-citations against your assignment rubric.</div>
+                </a>
+                <a href="https://www.wolframalpha.com/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">♾️</div><h3>Wolfram</h3>
+                    <div class="card-warning">Use for checking work. Submitting auto-solutions is academic dishonesty.</div>
+                </a>
+                <a href="https://pomofocus.io/" target="_blank" class="resource-card">
+                    <div class="icon-sm">⏱️</div><h3>Study Timer</h3>
                 </a>
             </div>
         </main>
 
         <aside class="sidebar">
             <div class="tool-box">
-                <h4>Academic Integrity</h4>
-                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-                    <strong>Canvas Tip:</strong> Instructors can see your activity logs. Avoid switching tabs during locked quizzes. 
-                    <br><br>
-                    <strong>AI Policy:</strong> Many schools use AI-detection. Always write your own drafts before using tools for editing.
-                </p>
+                <h4>Dictionary Search</h4>
+                <div class="search-group">
+                    <input type="text" id="dictInput" placeholder="Look up a word...">
+                    <button onclick="searchDictionary()">GO</button>
+                </div>
             </div>
 
             <div class="tool-box">
@@ -285,10 +316,27 @@
                 <input type="text" id="taskInput" placeholder="Add study task + Enter">
                 <ul class="task-list" id="taskList"></ul>
             </div>
+
+            <div class="tool-box">
+                <h4>Integrity Check</h4>
+                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                    Canvas logs tab-switching during exams. AI detectors look for pattern-perfect syntax. Write first, edit later.
+                </p>
+            </div>
         </aside>
+
     </div>
 
     <script>
+        // Dictionary Logic
+        function searchDictionary() {
+            const word = document.getElementById('dictInput').value.trim();
+            if (word) {
+                window.open(`https://www.merriam-webster.com/dictionary/${word}`, '_blank');
+            }
+        }
+
+        // --- Task List with Persistence ---
         const taskInput = document.getElementById('taskInput');
         const taskList = document.getElementById('taskList');
 
@@ -319,17 +367,7 @@
             loadTasks();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadTasks();
-            const savedTitle = localStorage.getItem('tabTitle');
-            const savedIcon = localStorage.getItem('tabIcon');
-            if (savedTitle) document.title = savedTitle;
-            if (savedIcon) {
-                let link = document.querySelector("link[rel~='icon']") || document.createElement('link');
-                link.rel = 'icon'; document.head.appendChild(link);
-                link.href = savedIcon;
-            }
-        });
+        document.addEventListener('DOMContentLoaded', loadTasks);
     </script>
 </body>
 </html>

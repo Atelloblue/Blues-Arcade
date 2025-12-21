@@ -172,7 +172,7 @@
         </div>
 
         <div class="setting-group">
-            <h2>Tab Cloak</h2>
+            <h2>Tab Cloak (Current Tab Only)</h2>
             <label for="tabTitle">New Tab Title</label>
             <input type="text" id="tabTitle" placeholder="e.g., Google Drive">
             
@@ -196,13 +196,9 @@
     </div>
 
     <script>
-        /** * 1. FIXED ABOUT:BLANK LOGIC
+        /** * 1. PURE ABOUT:BLANK LOGIC
          **/
         function openAboutBlank() {
-            // Retrieve cloak settings from storage or use defaults
-            const savedTitle = localStorage.getItem('tabTitle') || "My Drive - Google Drive";
-            const savedIcon = localStorage.getItem('tabIcon') || "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png";
-            
             // Get the current URL to embed
             const url = window.location.href;
             
@@ -214,14 +210,12 @@
                 return;
             }
 
-            // We use 'position: fixed' and 'top:0, left:0' to ensure 
-            // the iframe is truly full screen with no borders.
+            // Standard blank HTML structure
+            // No custom titles or icons are injected here.
             const htmlContent = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>${savedTitle}</title>
-                    <link rel="icon" href="${savedIcon}">
                     <style>
                         body { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
                         iframe { 
@@ -246,8 +240,6 @@
             win.document.open();
             win.document.write(htmlContent);
             win.document.close();
-            
-            // Note: We are NOT redirecting the original tab, per your request.
         }
 
         /** * 2. CLOAKING & PANIC LOGIC
@@ -308,7 +300,7 @@
             localStorage.setItem('panicUrl', document.getElementById('panicUrl').value);
             
             applyTabCloak();
-            alert('Settings saved and applied!');
+            alert('Settings saved and applied to this tab!');
         }
     </script>
 </body>

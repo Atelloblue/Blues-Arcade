@@ -18,6 +18,7 @@
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --card-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #a855f7;
         }
 
         body {
@@ -121,25 +122,30 @@
             margin-top: 10px;
         }
 
+.blank-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    /* Changed from purple to your primary blue */
+    color: var(--primary-glow);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    transition: 0.3s;
+}
+
+.blank-btn:hover {
+    /* Solid blue background on hover with a glow effect */
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+
         .save-btn:hover { box-shadow: 0 0 20px var(--primary); transform: scale(1.02); }
-
-        /* Blue about:blank button styling */
-        .blank-btn {
-            width: 100%;
-            padding: 12px;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary-glow);
-            border: 1px solid var(--primary);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.8rem;
-        }
-
-        .blank-btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
 
         .back-btn {
             margin-top: 20px;
@@ -161,10 +167,15 @@
 
     <div class="settings-container">
         <div class="setting-group">
-            <h2>Tab Cloak</h2>
-            
-            <button class="blank-btn" onclick="openAboutBlank()">Open Site in about:blank</button>
+            <h2>About:Blank Cloak</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                Opens this site in a new tab with no history or URL.
+            </p>
+            <button class="blank-btn" onclick="openAboutBlank()">Open in about:blank</button>
+        </div>
 
+        <div class="setting-group">
+            <h2>Tab Cloak</h2>
             <label for="tabTitle">New Tab Title</label>
             <input type="text" id="tabTitle" placeholder="e.g., Google Drive">
             
@@ -191,33 +202,26 @@
         /** * 1. ABOUT:BLANK LOGIC
          **/
         function openAboutBlank() {
-            const win = window.open('about:blank', '_blank');
+            const url = window.location.href;
+            const win = window.open();
             if (!win) {
-                alert("Pop-up blocked! Please allow pop-ups for this site.");
+                alert("Please allow popups for this feature to work.");
                 return;
             }
-
-            const iframe = win.document.createElement('iframe');
-            const style = iframe.style;
-            const url = window.location.href;
-
-            win.document.title = localStorage.getItem('tabTitle') || "Classes";
             win.document.body.style.margin = '0';
             win.document.body.style.height = '100vh';
-
-            style.position = 'fixed';
-            style.top = style.bottom = style.left = style.right = 0;
-            style.border = style.outline = 'none';
-            style.width = style.height = '100%';
-
-            iframe.src = url;
-            win.document.body.appendChild(iframe);
             
-            // Redirect original tab to a safe site (optional security)
-            window.location.replace("https://google.com");
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = url;
+            
+            win.document.body.appendChild(iframe);
         }
 
-        /** * 2. IMMEDIATE ACTION: CLOAKING & PANIC LOGIC
+        /** * 2. CLOAKING & PANIC LOGIC
          **/
         function applyTabCloak() {
             const savedTitle = localStorage.getItem('tabTitle');

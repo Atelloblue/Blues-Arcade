@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Student Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #020617; 
+            --bg-panel: rgba(30, 41, 59, 0.4); 
+            --primary: #38bdf8; 
+            --accent: #f43f5e; 
+            --warning-amber: #fbbf24;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --card-border: rgba(255, 255, 255, 0.06);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .integrity-banner {
+            background: rgba(244, 63, 94, 0.1);
+            border-bottom: 1px solid var(--accent);
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #fda4af;
+        }
+
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .back-btn {
+            padding: 6px 14px;
+            background: var(--bg-panel);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.6rem;
+            transition: 0.3s;
+        }
+
+        .main-layout {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+            padding: 0 40px 60px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            margin: 25px 0 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .resource-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            text-decoration: none;
+            position: relative;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            min-height: 100px;
+            justify-content: center;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .icon-sm { font-size: 1.4rem; margin-bottom: 6px; }
+        .resource-card h3 { font-size: 0.8rem; margin: 0; color: #fff; }
+
+        .integrity-tag {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.6rem;
+            color: var(--warning-amber);
+            background: rgba(251, 191, 36, 0.1);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .card-warning {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: #fbbf24;
+            color: #000;
+            font-size: 0.6rem;
+            padding: 6px;
+            box-sizing: border-box;
+            transition: 0.3s ease;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .resource-card:hover .card-warning {
+            bottom: 0;
+        }
+
+        .tool-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tool-box h4 {
+            margin: 0 0 15px 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        #taskInput {
+            width: 100%;
+            background: #020617;
+            border: 1px solid var(--card-border);
+            padding: 10px;
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .task-list li {
+            padding: 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn { color: var(--accent); cursor: pointer; font-weight: bold; }
+
+        @media (max-width: 1100px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="integrity-banner">
+        ⚠️ <strong>Reminder:</strong> AI and automation tools should assist learning, not replace it. Check your school's AI policy.
+    </div>
+
+    <header>
+        <div class="brand"><h1>STUDENT PORTAL</h1></div>
+        <a href="index.html" class="back-btn">← BACK</a>
+    </header>
+
+    <div class="main-layout">
+        <main>
+            <div class="section-title">LMS & Administration</div>
+            <div class="resource-grid">
+                <a href="https://canvas.instructure.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">🎨</div><h3>Canvas</h3>
+                </a>
+                <a href="https://classroom.google.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">📝</div><h3>Classroom</h3>
+                </a>
+                <a href="https://www.collegeboard.org" target="_blank" class="resource-card">
+                    <div class="icon-sm">🎯</div><h3>College Board</h3>
+                </a>
+                <a href="https://www.clever.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">🚀</div><h3>Clever</h3>
+                </a>
+            </div>
+
+            <div class="section-title">Research & Literacy</div>
+            <div class="resource-grid">
+                <a href="https://soraapp.com/welcome" target="_blank" class="resource-card">
+                    <div class="icon-sm">📚</div><h3>Sora</h3>
+                </a>
+                <a href="https://www.worldbookonline.com/home/" target="_blank" class="resource-card">
+                    <div class="icon-sm">🌍</div><h3>World Book</h3>
+                </a>
+                <a href="https://www.britannica.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">📖</div><h3>Britannica</h3>
+                </a>
+                <a href="https://scholar.google.com" target="_blank" class="resource-card">
+                    <div class="icon-sm">🎓</div><h3>Google Scholar</h3>
+                </a>
+            </div>
+
+            <div class="section-title">STEM & Writing Support</div>
+            <div class="resource-grid">
+                <a href="https://www.grammarly.com/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">✨</div><h3>Grammarly</h3>
+                    <div class="card-warning">Integrity: Use for grammar checks only, not for AI-rewriting work.</div>
+                </a>
+                <a href="https://www.citationmachine.net/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">✍️</div><h3>Citations</h3>
+                    <div class="card-warning">Integrity: Use for formatting. Do not use for auto-generating content.</div>
+                </a>
+                <a href="https://www.wolframalpha.com/" target="_blank" class="resource-card">
+                    <span class="integrity-tag">⚠️</span>
+                    <div class="icon-sm">♾️</div><h3>Wolfram</h3>
+                    <div class="card-warning">Integrity: Use to check your logic. Copying steps may be cheating.</div>
+                </a>
+                <a href="https://phet.colorado.edu" target="_blank" class="resource-card">
+                    <div class="icon-sm">🔬</div><h3>PhET Sims</h3>
+                </a>
+                <a href="https://www.desmos.com/calculator" target="_blank" class="resource-card">
+                    <div class="icon-sm">📉</div><h3>Desmos</h3>
+                </a>
+                <a href="https://www.geogebra.org" target="_blank" class="resource-card">
+                    <div class="icon-sm">📐</div><h3>GeoGebra</h3>
+                </a>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="tool-box">
+                <h4>Academic Integrity</h4>
+                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                    <strong>Canvas Tip:</strong> Instructors can see your activity logs. Avoid switching tabs during locked quizzes. 
+                    <br><br>
+                    <strong>AI Policy:</strong> Many schools use AI-detection. Always write your own drafts before using tools for editing.
+                </p>
+            </div>
+
+            <div class="tool-box">
+                <h4>Focus & Tasks</h4>
+                <input type="text" id="taskInput" placeholder="Add study task + Enter">
+                <ul class="task-list" id="taskList"></ul>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('studentTasks')) || [];
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${task} <span class="delete-btn" onclick="removeTask(${index})">✕</span>`;
+                taskList.appendChild(li);
+            });
+        }
+
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && taskInput.value.trim() !== '') {
+                const tasks = JSON.parse(localStorage.getItem('studentTasks')) || [];
+                tasks.push(taskInput.value.trim());
+                localStorage.setItem('studentTasks', JSON.stringify(tasks));
+                taskInput.value = '';
+                loadTasks();
+            }
+        });
+
+        window.removeTask = function(index) {
+            const tasks = JSON.parse(localStorage.getItem('studentTasks'));
+            tasks.splice(index, 1);
+            localStorage.setItem('studentTasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTasks();
+            const savedTitle = localStorage.getItem('tabTitle');
+            const savedIcon = localStorage.getItem('tabIcon');
+            if (savedTitle) document.title = savedTitle;
+            if (savedIcon) {
+                let link = document.querySelector("link[rel~='icon']") || document.createElement('link');
+                link.rel = 'icon'; document.head.appendChild(link);
+                link.href = savedIcon;
+            }
+        });
+    </script>
+</body>
+</html>

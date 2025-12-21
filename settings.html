@@ -166,7 +166,7 @@
         <div class="setting-group">
             <h2>About:Blank Cloak</h2>
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
-                Opens this site in a new tab with no history or URL.
+                Opens this site in a new tab with no history.
             </p>
             <button class="blank-btn" onclick="openAboutBlank()">Open in about:blank</button>
         </div>
@@ -196,51 +196,49 @@
     </div>
 
     <script>
-        /** * 1. UPGRADED ABOUT:BLANK LOGIC
+        /** * 1. FIXED ABOUT:BLANK LOGIC
          **/
         function openAboutBlank() {
-            // Get current cloak settings to apply to the blank tab
+            // Retrieve cloak settings from storage or use defaults
             const savedTitle = localStorage.getItem('tabTitle') || "My Drive - Google Drive";
             const savedIcon = localStorage.getItem('tabIcon') || "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png";
             
+            // Get the current URL to embed
             const url = window.location.href;
             
-            // Open the new window
+            // Open a new blank window
             const win = window.open('about:blank', '_blank');
             
-            // Safety check for popup blockers
             if (!win || win.closed || typeof win.closed == 'undefined') {
-                alert("Pop-up blocked! Please allow pop-ups for this site to cloak it.");
+                alert("Pop-up blocked! Please allow pop-ups for this site.");
                 return;
             }
 
-            // The HTML structure for the cloaked window
-            // We write this explicitly to ensure full coverage and no white flashes
+            // We use 'position: fixed' and 'top:0, left:0' to ensure 
+            // the iframe is truly full screen with no borders.
             const htmlContent = `
                 <!DOCTYPE html>
-                <html style="width:100%; height:100%; margin:0; padding:0; overflow:hidden;">
+                <html>
                 <head>
                     <title>${savedTitle}</title>
                     <link rel="icon" href="${savedIcon}">
                     <style>
-                        body { 
-                            margin: 0; 
-                            padding: 0; 
-                            width: 100%; 
-                            height: 100%; 
-                            overflow: hidden; 
-                            background-color: #000; /* Prevents white flash */
-                        }
+                        body { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
                         iframe { 
+                            position: fixed; 
+                            top: 0; 
+                            left: 0; 
+                            bottom: 0; 
+                            right: 0; 
                             width: 100%; 
                             height: 100%; 
                             border: none; 
-                            outline: none; 
+                            outline: none;
                         }
                     </style>
                 </head>
                 <body>
-                    <iframe src="${url}" allowfullscreen></iframe>
+                    <iframe src="${url}"></iframe>
                 </body>
                 </html>
             `;
@@ -248,9 +246,8 @@
             win.document.open();
             win.document.write(htmlContent);
             win.document.close();
-
-            // OPTIONAL: Uncomment the line below to close/redirect the original tab automatically
-            // window.location.replace("https://google.com");
+            
+            // Note: We are NOT redirecting the original tab, per your request.
         }
 
         /** * 2. CLOAKING & PANIC LOGIC
@@ -273,11 +270,11 @@
 
         applyTabCloak();
 
+        // Listen for the Panic Key
         document.addEventListener('keydown', (e) => {
             const panicKey = localStorage.getItem('panicKey');
             const panicUrl = localStorage.getItem('panicUrl') || 'https://google.com';
             
-            // Case insensitive comparison
             if (panicKey && e.key.toLowerCase() === panicKey.toLowerCase()) {
                 window.location.href = panicUrl;
             }

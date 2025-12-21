@@ -18,6 +18,7 @@
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --card-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #a855f7;
         }
 
         body {
@@ -31,18 +32,17 @@
             align-items: center;
         }
 
+        /* Particles */
         .particle-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             overflow: hidden; z-index: -1;
             background: radial-gradient(circle at bottom center, #0f172a 0%, #020205 80%);
         }
-
         .particle {
             position: absolute; border-radius: 50%; background: white; opacity: 0.3;
             box-shadow: 0 0 10px white; animation: floatUp linear infinite;
         }
-
         @keyframes floatUp {
             0% { transform: translateY(0); opacity: 0; }
             50% { opacity: 0.5; }
@@ -80,6 +80,8 @@
             padding-bottom: 10px;
         }
 
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        
         input {
             width: 100%;
             padding: 12px;
@@ -92,7 +94,13 @@
             box-sizing: border-box;
         }
 
-        .save-btn, .blank-btn {
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .save-btn, .back-btn, .blank-btn {
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -100,26 +108,32 @@
             letter-spacing: 2px;
             transition: 0.3s;
             text-align: center;
+            text-decoration: none;
             display: inline-block;
-            width: 100%;
-            border-radius: 8px;
         }
 
         .save-btn {
+            width: 100%;
             padding: 15px;
             background: var(--primary);
             color: #000;
             border: none;
+            border-radius: 8px;
             margin-top: 10px;
         }
 
         .blank-btn {
+            width: 100%;
             padding: 12px;
             background: transparent;
             color: var(--primary-glow);
             border: 2px solid var(--primary);
+            border-radius: 8px;
             margin-bottom: 20px;
             font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.3s;
         }
 
         .blank-btn:hover {
@@ -128,14 +142,16 @@
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
+        .save-btn:hover { box-shadow: 0 0 20px var(--primary); transform: scale(1.02); }
+
         .back-btn {
             margin-top: 20px;
             color: var(--text-muted);
             font-size: 0.8rem;
-            text-decoration: none;
-            display: block;
-            text-align: center;
+            border-bottom: 1px solid transparent;
         }
+
+        .back-btn:hover { color: white; border-bottom: 1px solid white; }
     </style>
 </head>
 <body>
@@ -149,45 +165,70 @@
     <div class="settings-container">
         <div class="setting-group">
             <h2>About:Blank Cloak</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                Opens this site in a new tab with no history.
+            </p>
             <button class="blank-btn" onclick="openAboutBlank()">Open in about:blank</button>
         </div>
 
         <div class="setting-group">
-            <h2>Tab Cloak</h2>
-            <input type="text" id="tabTitle" placeholder="Tab Title">
-            <input type="text" id="tabIcon" placeholder="Favicon URL">
+            <h2>Tab Cloak (Current Tab Only)</h2>
+            <label for="tabTitle">New Tab Title</label>
+            <input type="text" id="tabTitle" placeholder="e.g., Google Drive">
+            
+            <label for="tabIcon">Favicon URL (Image Link)</label>
+            <input type="text" id="tabIcon" placeholder="https://example.com/icon.png">
         </div>
 
         <div class="setting-group">
             <h2>Panic Shortcut</h2>
-            <input type="text" id="panicKey" maxlength="10" placeholder="Panic Key (e.g. q)">
-            <input type="text" id="panicUrl" placeholder="Redirect URL">
+            <label for="panicKey">Trigger Key (e.g., 'q' or 'Escape')</label>
+            <input type="text" id="panicKey" maxlength="10" placeholder="Type key here...">
+            
+            <label for="panicUrl">Redirect URL</label>
+            <input type="text" id="panicUrl" placeholder="https://google.com">
         </div>
 
         <button class="save-btn" onclick="saveSettings()">Apply Changes</button>
-        <a href="index.html" class="back-btn">Return</a>
+        <div style="text-align: center;">
+            <a href="index.html" class="back-btn">Return</a>
+        </div>
     </div>
 
     <script>
+        /** * 1. PURE ABOUT:BLANK LOGIC
+         **/
         function openAboutBlank() {
+            // Get the current URL to embed
             const url = window.location.href;
             
-            // Create a new window first
+            // Open a new blank window
             const win = window.open('about:blank', '_blank');
-            if (!win) {
+            
+            if (!win || win.closed || typeof win.closed == 'undefined') {
                 alert("Pop-up blocked! Please allow pop-ups for this site.");
                 return;
             }
 
-            // Define the content that will go inside the blank window
-            const docContent = `
+            // Standard blank HTML structure
+            // No custom titles or icons are injected here.
+            const htmlContent = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>about:blank</title>
                     <style>
-                        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
-                        iframe { border: none; width: 100vw; height: 100vh; display: block; }
+                        body { margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+                        iframe { 
+                            position: fixed; 
+                            top: 0; 
+                            left: 0; 
+                            bottom: 0; 
+                            right: 0; 
+                            width: 100%; 
+                            height: 100%; 
+                            border: none; 
+                            outline: none;
+                        }
                     </style>
                 </head>
                 <body>
@@ -196,15 +237,17 @@
                 </html>
             `;
 
-            // Clear the existing about:blank content and write the new one
             win.document.open();
-            win.document.write(docContent);
+            win.document.write(htmlContent);
             win.document.close();
         }
 
+        /** * 2. CLOAKING & PANIC LOGIC
+         **/
         function applyTabCloak() {
             const savedTitle = localStorage.getItem('tabTitle');
             const savedIcon = localStorage.getItem('tabIcon');
+            
             if (savedTitle) document.title = savedTitle;
             if (savedIcon) {
                 let link = document.querySelector("link[rel~='icon']");
@@ -217,24 +260,20 @@
             }
         }
 
+        applyTabCloak();
+
+        // Listen for the Panic Key
         document.addEventListener('keydown', (e) => {
             const panicKey = localStorage.getItem('panicKey');
             const panicUrl = localStorage.getItem('panicUrl') || 'https://google.com';
+            
             if (panicKey && e.key.toLowerCase() === panicKey.toLowerCase()) {
                 window.location.href = panicUrl;
             }
         });
 
-        function saveSettings() {
-            localStorage.setItem('tabTitle', document.getElementById('tabTitle').value);
-            localStorage.setItem('tabIcon', document.getElementById('tabIcon').value);
-            localStorage.setItem('panicKey', document.getElementById('panicKey').value);
-            localStorage.setItem('panicUrl', document.getElementById('panicUrl').value);
-            applyTabCloak();
-            alert('Settings saved!');
-        }
-
-        // Particle logic
+        /** * 3. UI & SETTINGS MANAGEMENT
+         **/
         const pContainer = document.getElementById('p-container');
         for(let i=0; i<15; i++) {
             let p = document.createElement('div');
@@ -247,13 +286,22 @@
             pContainer.appendChild(p);
         }
 
-        window.onload = () => {
-            applyTabCloak();
+        window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tabTitle').value = localStorage.getItem('tabTitle') || '';
             document.getElementById('tabIcon').value = localStorage.getItem('tabIcon') || '';
             document.getElementById('panicKey').value = localStorage.getItem('panicKey') || '';
             document.getElementById('panicUrl').value = localStorage.getItem('panicUrl') || '';
-        };
+        });
+
+        function saveSettings() {
+            localStorage.setItem('tabTitle', document.getElementById('tabTitle').value);
+            localStorage.setItem('tabIcon', document.getElementById('tabIcon').value);
+            localStorage.setItem('panicKey', document.getElementById('panicKey').value);
+            localStorage.setItem('panicUrl', document.getElementById('panicUrl').value);
+            
+            applyTabCloak();
+            alert('Settings saved and applied to this tab!');
+        }
     </script>
 </body>
 </html>

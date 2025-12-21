@@ -11,122 +11,201 @@
     
     <style>
         :root {
-            --bg-deep: #020617; 
-            --bg-panel: rgba(30, 41, 59, 0.4); 
-            --primary: #38bdf8; 
-            --accent: #f43f5e; 
-            --warning-amber: #fbbf24;
-            --text-main: #f1f5f9;
+            /* Palette - Cyber Dark */
+            --bg-deep: #0f172a;
+            --bg-gradient: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08), transparent 25%), 
+                           radial-gradient(circle at 85% 30%, rgba(244, 63, 94, 0.08), transparent 25%);
+            
+            --glass-surface: rgba(30, 41, 59, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            
+            --primary: #38bdf8;       /* Sky Blue */
+            --primary-glow: rgba(56, 189, 248, 0.4);
+            
+            --accent: #f43f5e;        /* Rose */
+            --warning: #fbbf24;       /* Amber */
+            
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --card-border: rgba(255, 255, 255, 0.06);
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Outfit', sans-serif;
             margin: 0;
             background-color: var(--bg-deep);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- INTEGRITY BANNER --- */
         .integrity-banner {
-            background: rgba(244, 63, 94, 0.1);
-            border-bottom: 1px solid var(--accent);
-            padding: 10px 20px;
+            background: rgba(244, 63, 94, 0.15);
+            border-bottom: 1px solid rgba(244, 63, 94, 0.3);
+            padding: 8px 20px;
             text-align: center;
-            font-size: 0.8rem;
-            color: #fda4af;
+            font-size: 0.85rem;
+            color: #ffcbd1;
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
         /* --- HEADER --- */
         header {
-            padding: 20px 40px;
+            padding: 30px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .brand h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             letter-spacing: 2px;
             margin: 0;
+            background: linear-gradient(90deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,255,255,0.1);
         }
 
         .back-btn {
-            padding: 6px 14px;
-            background: var(--bg-panel);
-            border: 1px solid var(--card-border);
-            border-radius: 6px;
-            color: var(--text-main);
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-muted);
             text-decoration: none;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.6rem;
-            transition: 0.3s;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: #0f172a;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border-color: var(--primary);
         }
 
         /* --- LAYOUT --- */
         .main-layout {
-            max-width: 1600px;
-            margin: 0 auto;
+            max-width: 1400px;
+            margin: 40px auto;
             display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 25px;
+            grid-template-columns: 1fr 340px;
+            gap: 40px;
             padding: 0 40px 60px;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--primary);
-            margin: 25px 0 12px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--card-border);
+            margin: 30px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* --- COMPACT RESOURCE CARDS --- */
+        .section-title::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            opacity: 0.3;
+        }
+
+        /* --- CARDS & GRID --- */
         .resource-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
         }
 
         .resource-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 15px;
+            background: var(--glass-surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 15px;
             text-decoration: none;
             position: relative;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .resource-card:hover {
-            border-color: var(--primary);
-            background: rgba(56, 189, 248, 0.05);
-            transform: translateY(-2px);
+            border-color: var(--glass-highlight);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+            background: rgba(40, 50, 75, 0.5);
         }
 
-        .icon-sm { font-size: 1.4rem; margin-bottom: 6px; }
-        .resource-card h3 { font-size: 0.85rem; margin: 0; color: #fff; }
+        .icon-circle {
+            background: rgba(255, 255, 255, 0.05);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
 
+        .resource-card:hover .icon-circle {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        .resource-card h3 { 
+            font-size: 0.95rem; 
+            margin: 0; 
+            color: #e2e8f0; 
+            font-weight: 500; 
+        }
+
+        /* Tags and Warnings */
         .integrity-tag {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 0.6rem;
-            color: var(--warning-amber);
-            background: rgba(251, 191, 36, 0.1);
-            padding: 2px 5px;
-            border-radius: 4px;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            cursor: help;
         }
 
         .card-warning {
@@ -134,108 +213,157 @@
             bottom: -100%;
             left: 0;
             width: 100%;
-            background: #fbbf24;
-            color: #000;
-            font-size: 0.6rem;
-            padding: 8px;
+            background: rgba(251, 191, 36, 0.95);
+            backdrop-filter: blur(5px);
+            color: #0f172a;
+            font-size: 0.75rem;
+            padding: 10px;
             box-sizing: border-box;
-            transition: 0.3s ease;
-            font-weight: 700;
-            line-height: 1.1;
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: left;
+            border-top: 2px solid #fff;
         }
 
         .resource-card:hover .card-warning {
             bottom: 0;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR TOOLS --- */
         .tool-box {
-            background: var(--bg-panel);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--glass-surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
         }
 
         .tool-box h4 {
             margin: 0 0 15px 0;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            color: var(--primary);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
         }
 
-        /* Dictionary Search Styles */
+        /* Inputs & Buttons */
+        input[type="text"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
         .search-group {
             display: flex;
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-
-        .search-group input {
-            flex: 1;
-            background: #020617;
-            border: 1px solid var(--card-border);
-            padding: 8px;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 0.8rem;
+            gap: 8px;
         }
 
         .search-group button {
             background: var(--primary);
-            color: #000;
+            color: #0f172a;
             border: none;
-            padding: 0 10px;
-            border-radius: 4px;
+            padding: 0 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.2s;
         }
 
-        #taskInput {
-            width: 100%;
-            background: #020617;
-            border: 1px solid var(--card-border);
-            padding: 10px;
-            border-radius: 6px;
-            color: #fff;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+        .search-group button:hover {
+            filter: brightness(1.1);
+            transform: scale(1.05);
         }
+
+        /* Task List Styling */
+        #taskInput { margin-bottom: 15px; }
 
         .task-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            font-size: 0.85rem;
         }
 
         .task-list li {
-            padding: 8px;
+            padding: 10px 12px;
             background: rgba(255,255,255,0.03);
-            border-radius: 4px;
-            margin-bottom: 5px;
+            border-left: 2px solid var(--glass-border);
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            border-radius: 0 6px 6px 0;
         }
 
-        .delete-btn { color: var(--accent); cursor: pointer; font-weight: bold; }
+        .task-list li:hover {
+            background: rgba(255,255,255,0.06);
+            border-left-color: var(--primary);
+        }
 
-        @media (max-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr; }
+        .delete-btn {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.2s;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .delete-btn:hover {
+            background: rgba(244, 63, 94, 0.2);
+            color: var(--accent);
+        }
+
+        .info-text {
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            line-height: 1.5;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed var(--glass-border);
+        }
+
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; padding: 0 20px 40px; }
+            header { padding: 20px; }
+            .integrity-banner { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
     <div class="integrity-banner">
-        ⚠️ <strong>Note:</strong> Tools with ⚠️ are for reference and verification only. Ensure use complies with your teacher's AI policy.
+        <span>⚠️ <strong>Notice:</strong> Tools marked with caution icons are for verification only.</span>
+        <span style="opacity: 0.7;">Ensure compliance with AI policies.</span>
     </div>
 
     <header>
-        <div class="brand"><h1>STUDENT WORKSPACE</h1></div>
-        <a href="index.html" class="back-btn">← RETURN TO ARCADE</a>
+        <div class="brand"><h1>STUDENT<span style="color:var(--primary)">PORTAL</span></h1></div>
+        <a href="index.html" class="back-btn">← BACK</a>
     </header>
 
     <div class="main-layout">
@@ -244,60 +372,74 @@
             <div class="section-title">Classrooms & Management</div>
             <div class="resource-grid">
                 <a href="https://canvas.instructure.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">🎨</div><h3>Canvas</h3>
+                    <div class="icon-circle">🎨</div>
+                    <h3>Canvas</h3>
                 </a>
                 <a href="https://classroom.google.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">📝</div><h3>Classroom</h3>
+                    <div class="icon-circle">📝</div>
+                    <h3>Classroom</h3>
                 </a>
                 <a href="https://www.clever.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">🚀</div><h3>Clever</h3>
+                    <div class="icon-circle">🚀</div>
+                    <h3>Clever</h3>
                 </a>
                 <a href="https://www.collegeboard.org" target="_blank" class="resource-card">
-                    <div class="icon-sm">🎯</div><h3>College Board</h3>
+                    <div class="icon-circle">🎯</div>
+                    <h3>College Board</h3>
                 </a>
             </div>
 
             <div class="section-title">Research & Reference</div>
             <div class="resource-grid">
                 <a href="https://soraapp.com/welcome" target="_blank" class="resource-card">
-                    <div class="icon-sm">📚</div><h3>Sora</h3>
+                    <div class="icon-circle">📚</div>
+                    <h3>Sora</h3>
                 </a>
                 <a href="https://www.worldbookonline.com/home/" target="_blank" class="resource-card">
-                    <div class="icon-sm">🌍</div><h3>World Book</h3>
+                    <div class="icon-circle">🌍</div>
+                    <h3>World Book</h3>
                 </a>
                 <a href="https://scholar.google.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">🎓</div><h3>Google Scholar</h3>
+                    <div class="icon-circle">🎓</div>
+                    <h3>Google Scholar</h3>
                 </a>
                 <a href="https://www.britannica.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">📖</div><h3>Britannica</h3>
+                    <div class="icon-circle">📖</div>
+                    <h3>Britannica</h3>
                 </a>
             </div>
 
             <div class="section-title">STEM & Academic Tools</div>
             <div class="resource-grid">
                 <a href="https://www.ilovepdf.com" target="_blank" class="resource-card">
-                    <div class="icon-sm">📄</div><h3>PDF Tools</h3>
+                    <div class="icon-circle">📄</div>
+                    <h3>PDF Tools</h3>
                 </a>
                 <a href="https://www.desmos.com/calculator" target="_blank" class="resource-card">
-                    <div class="icon-sm">📉</div><h3>Desmos</h3>
+                    <div class="icon-circle">📉</div>
+                    <h3>Desmos</h3>
                 </a>
                 <a href="https://www.grammarly.com/" target="_blank" class="resource-card">
                     <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">✨</div><h3>Grammarly</h3>
+                    <div class="icon-circle">✨</div>
+                    <h3>Grammarly</h3>
                     <div class="card-warning">Use for spellcheck only. Do not let it rewrite your original ideas.</div>
                 </a>
                 <a href="https://www.citationmachine.net/" target="_blank" class="resource-card">
                     <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">✍️</div><h3>Citations</h3>
+                    <div class="icon-circle">✍️</div>
+                    <h3>Citations</h3>
                     <div class="card-warning">Always double-check auto-citations against your assignment rubric.</div>
                 </a>
                 <a href="https://www.wolframalpha.com/" target="_blank" class="resource-card">
                     <span class="integrity-tag">⚠️</span>
-                    <div class="icon-sm">♾️</div><h3>Wolfram</h3>
+                    <div class="icon-circle">♾️</div>
+                    <h3>Wolfram</h3>
                     <div class="card-warning">Use for checking work. Submitting auto-solutions is academic dishonesty.</div>
                 </a>
                 <a href="https://pomofocus.io/" target="_blank" class="resource-card">
-                    <div class="icon-sm">⏱️</div><h3>Study Timer</h3>
+                    <div class="icon-circle">⏱️</div>
+                    <h3>Study Timer</h3>
                 </a>
             </div>
         </main>
@@ -306,20 +448,20 @@
             <div class="tool-box">
                 <h4>Dictionary Search</h4>
                 <div class="search-group">
-                    <input type="text" id="dictInput" placeholder="Look up a word...">
+                    <input type="text" id="dictInput" placeholder="Define...">
                     <button onclick="searchDictionary()">GO</button>
                 </div>
             </div>
 
             <div class="tool-box">
                 <h4>Focus & Tasks</h4>
-                <input type="text" id="taskInput" placeholder="Add study task + Enter">
+                <input type="text" id="taskInput" placeholder="+ Add study task">
                 <ul class="task-list" id="taskList"></ul>
             </div>
 
             <div class="tool-box">
                 <h4>Integrity Check</h4>
-                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                <p class="info-text">
                     Canvas logs tab-switching during exams. AI detectors look for pattern-perfect syntax. Write first, edit later.
                 </p>
             </div>
@@ -345,7 +487,7 @@
             taskList.innerHTML = '';
             tasks.forEach((task, index) => {
                 const li = document.createElement('li');
-                li.innerHTML = `${task} <span class="delete-btn" onclick="removeTask(${index})">✕</span>`;
+                li.innerHTML = `${task} <span class="delete-btn" onclick="removeTask(${index})">×</span>`;
                 taskList.appendChild(li);
             });
         }

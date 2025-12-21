@@ -5,7 +5,7 @@ const gameData = [
         name: "Bowmasters",
         description: "Aim for other players and win!",
         icon: "🏹",
-        category: "Strategy",
+        category: "Action",
         link: "games/bowmasters.html"
     },
     {
@@ -21,5 +21,12 @@ const gameData = [
         icon: "🌀",
         category: "Puzzle",
         link: "games/amaze.html"
+    },
+    {
+        name: "Geometry Dash",
+        description: "Jump and fly through dangerous obstacles in this fast-paced platformer.",
+        icon: "🎵",
+        category: "Platformer",
+        link: "games/geometrydash.html"
     }
 ];
